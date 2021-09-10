@@ -1,0 +1,34 @@
+{
+  "scripts": {
+    "webpack:serve": "webpack serve --progress --mode=development --hot",
+    "bundle": "npx webpack --config webpack.config.js",
+    "build": "npm install; npx spago build",
+    "predeploy": "npm run build && npm run bundle && npm run cdk:install && npm run cdk:build",
+    "deploy": "npm run predeploy && npm run cdk:deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bootstrap": "^5.1.1",
+    "bootstrap-icons": "^1.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@rowtype-yoga/prettier-plugin-purescript": "^1.11.1",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "css-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.1",
+    "postcss-loader": "^6.1.1",
+    "prettier": "^2.4.0",
+    "purescript": "^0.14.4",
+    "purs-loader": "^3.7.2",
+    "purty": "^7.0.0",
+    "sass": "^1.32.8",
+    "sass-loader": "^11.0.1",
+    "spago": "^0.20.3",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
