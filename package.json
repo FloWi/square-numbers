@@ -3,7 +3,7 @@
     "webpack:serve": "webpack serve --progress --mode=development --hot",
     "bundle": "npx webpack --config webpack.config.js",
     "build": "npm install; npx spago build",
-    "predeploy": "npm run build && npm run bundle && npm run cdk:install && npm run cdk:build",
+    "predeploy": "npm run build && npm run bundle",
     "deploy": "npm run predeploy && npm run cdk:deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
