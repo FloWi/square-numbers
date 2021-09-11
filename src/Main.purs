@@ -4,7 +4,7 @@ import Prelude
 import Calculator (calcNumbers)
 import Effect (Effect)
 import Elmish.Boot (defaultMain)
-import HTMLHelloWorld (helloWorld)
+import TableRenderer (render)
 
 main :: Effect Unit
 main =
@@ -13,6 +13,6 @@ main =
     , def:
         { init: pure unit
         , update: \_ _ -> pure unit
-        , view: \_ _ -> helloWorld $ calcNumbers 10
+        , view: \_ _ -> render $ calcNumbers 20
         }
     }
