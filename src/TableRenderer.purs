@@ -18,7 +18,8 @@ render results =
   R.article { className: "container" }
     [ R.h1 {} "Square Numbers"
     , R.table { className: "table table-bordered table-striped" } [ head, body ]
-    , R.a { href: unsafePerformEffect $ generateDownloadLink results, download: "square-numbers.csv" } "download csv"
+    , R.p {} [ R.a { href: unsafePerformEffect $ generateDownloadLink results, download: "square-numbers.csv" } "download csv" ]
+    , R.p {} [ R.a { href: "https://github.com/FloWi/square-numbers/", target: "_blank" } "repo on github" ]
     ]
   where
   head =
