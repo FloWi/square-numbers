@@ -1,8 +1,8 @@
 "use strict";
 
-import "./styles.scss";
+require("./src/styles.scss")
 
-require("./Main.purs").main();
+require("./output/Main").main();
 
 if (module.hot) {
   module.hot.accept();

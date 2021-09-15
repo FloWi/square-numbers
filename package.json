@@ -1,7 +1,7 @@
 {
   "scripts": {
     "webpack:serve": "webpack serve --progress --mode=development --hot",
-    "bundle": "npx webpack --config webpack.config.js",
+    "bundle": "npx webpack --config webpack.prod.js",
     "build": "npm install; npx spago build",
     "predeploy": "npm run build && npm run bundle",
     "deploy": "npm run predeploy && npm run cdk:deploy",
