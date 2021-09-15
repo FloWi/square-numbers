@@ -36,7 +36,8 @@ module.exports = () => {
 
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: 'bundle.js'
+      filename: 'bundle.js',
+      pathinfo: true
     },
 
     module: {
@@ -83,7 +84,8 @@ module.exports = () => {
               ],
               spago: true,
               watch: isWebpackDevServer || isWatch,
-              pscIde: true
+              pscIde: true,
+              //bundle: false
             }
           }
         ]
