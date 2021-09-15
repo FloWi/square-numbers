@@ -1,11 +1,12 @@
 {
   "scripts": {
-    "webpack:serve": "webpack serve --progress --mode=development --hot",
     "bundle": "npx webpack --config webpack.prod.js",
     "build": "npm install; npx spago build",
     "predeploy": "npm run build && npm run bundle",
     "deploy": "npm run predeploy && npm run cdk:deploy",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npx spago build",
+    "start": "npx webpack serve --config webpack.dev.js --progress"
   },
   "dependencies": {
     "bootstrap": "^5.1.1",
@@ -14,6 +15,7 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0",
     "@rowtype-yoga/prettier-plugin-purescript": "^1.11.1",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "css-loader": "^6.2.0",
@@ -30,6 +32,7 @@
     "webpack": "^5.28.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.6.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.8.0"
   }
 }
