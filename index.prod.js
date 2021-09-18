@@ -1,6 +1,6 @@
 "use strict";
 
-require("./src/styles.scss")
+import "./src/styles.scss";
 
 require("./output/Main").main();
 

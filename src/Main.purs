@@ -40,7 +40,7 @@ main =
         { init:
             do
               fork $ pure CalculateSquareNumbers
-              pure { from: "1", to: "25", result: Nothing, csvDownloadLink: Nothing }
+              pure { from: "1", to: "15", result: Nothing, csvDownloadLink: Nothing }
         , update
         , view
         }
@@ -60,20 +60,32 @@ main =
     CsvLinkGenerated link -> pure $ s { csvDownloadLink = Just link }
 
   view s dispatch =
-    R.article { className: "container" }
-      [ R.h1 {} "Square Numbers"
-      , R.div { className: "form-group" }
-          [ R.form { onSubmit: pure unit } --return false prevents form from submitting, but elmish wants unit. Alternative would be `<form onsubmit="event.preventDefault();">`
-              $
-                [ R.label { htmlFor: "from" } $ R.text "from"
-                , R.input { id: "from", "type": "text", placeholder: s.from, className: "form-control", value: s.from, onChange: handleMaybe dispatch \e -> eventTargetValue e <#> EditFrom }
-                , R.label { htmlFor: "to" } $ R.text "to"
-                , R.input { id: "to", "type": "text", placeholder: s.to, className: "form-control", value: s.to, onChange: handleMaybe dispatch \e -> eventTargetValue e <#> EditTo }
-                , R.button { "type": "submit", onClick: dispatch CalculateSquareNumbers, disabled: not isValid } [ R.text "calculate" ]
-                ]
-          ]
-      , displayResult s.result s.csvDownloadLink
-      ]
+    R.div { className: "container my-grid" }
+      $
+        [ R.h1 {} "Square Numbers"
+        , R.form { className: "row gy-3", onSubmit: pure unit } --return false prevents form from submitting, but elmish wants unit. Alternative would be `<form onsubmit="event.preventDefault();">`
+            $
+              [ R.div { className: "col-md-2" }
+                  $
+                    [ R.label { className: "visually-hidden", htmlFor: "from" } $ [ R.text "from" ]
+                    , R.div { className: "input-group" }
+                        [ R.div { className: "input-group-text" } [ R.text "from" ]
+                        , R.input { id: "from", "type": "text", placeholder: "from", className: "form-control", value: s.from, onChange: handleMaybe dispatch \e -> eventTargetValue e <#> EditFrom }
+                        ]
+                    ]
+              , R.div { className: "col-md-2" }
+                  $
+                    [ R.label { className: "visually-hidden", htmlFor: "to" } $ [ R.text "to" ]
+                    , R.div { className: "input-group" }
+                        [ R.div { className: "input-group-text" } [ R.text "to" ]
+                        , R.input { id: "to", "type": "text", placeholder: "to", className: "form-control", value: s.to, onChange: handleMaybe dispatch \e -> eventTargetValue e <#> EditTo }
+                        ]
+                    ]
+              , R.div { className: "col-md-2" }
+                  $ [ R.button { "type": "submit", className: "btn btn-primary", onClick: dispatch CalculateSquareNumbers, disabled: not isValid } [ R.text "calculate" ] ]
+              ]
+        , R.div { className: "row gy-3" } $ [ displayResult s.result s.csvDownloadLink ]
+        ]
     where
     isValid = isJust $ getInputValues s
   toRow :: Array String -> ReactElement
@@ -81,8 +93,8 @@ main =
     R.tr {} $ row <#> (\val -> R.td { className: "text-end" } [ R.text val ])
 
   displayResult (Just { header: header', cells: cells' }) (Just csvDownloadLink) =
-    R.div {}
-      [ R.table { className: "table table-bordered table-striped" }
+    R.div { className: "col-md-8" }
+      [ R.table { className: "table table-bordered table-striped  w-auto mw-100" }
           [ R.thead {} [ R.tr {} $ header' <#> (\val -> R.th { className: "text-end" } [ R.text val ]) ]
           , R.tbody {} $ cells' <#> toRow
           ]
