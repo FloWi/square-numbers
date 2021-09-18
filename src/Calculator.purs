@@ -3,8 +3,6 @@ module Calculator (calcNumbers, Result) where
 import Prelude
 import Data.Array as Array
 import Data.Int (ceil, toNumber)
-import Effect (Effect)
-import Effect.Console (log)
 import Math (sqrt)
 
 -- main :: Effect Unit
@@ -18,11 +16,11 @@ type Result
     , sqrtSquareSum :: Int
     }
 
-calcNumbers :: Int -> Array Result
-calcNumbers max = do
-  x <- Array.range 1 max
-  y <- Array.range x max
-  z <- Array.range y max
+calcNumbers :: Int -> Int -> Array Result
+calcNumbers from to = do
+  x <- Array.range from to
+  y <- Array.range x to
+  z <- Array.range y to
   calculate x y z
   where
 
