@@ -9,14 +9,12 @@ import Data.MediaType (MediaType(..))
 import Data.String (joinWith)
 import Effect (Effect)
 import Effect.Class (liftEffect)
-import Elmish (ReactElement, fork, handleMaybe, mkEffectFn1)
+import Elmish (ReactElement, fork, handleMaybe)
 import Elmish.Boot (defaultMain)
 import Elmish.Foreign (Foreign, readForeign)
 import Elmish.HTML as R
 import Foreign.Object (lookup)
 import UI.Util (eventTargetValue, generateDownloadLink)
-import Unsafe.Coerce (unsafeCoerce)
-import Web.Event.Event (preventDefault)
 
 type State
   = { from :: String
