@@ -26,6 +26,8 @@ to generate this file without the comments in this block.
   , "prelude"
   , "psci-support"
   , "strings"
+  , "unsafe-coerce"
+  , "web-events"
   , "web-file"
   ]
 , packages = ./packages.dhall

@@ -9,10 +9,14 @@ import Data.MediaType (MediaType(..))
 import Data.String (joinWith)
 import Effect (Effect)
 import Effect.Class (liftEffect)
-import Elmish (ReactElement, fork, handleMaybe)
+import Elmish (ReactElement, fork, handleMaybe, mkEffectFn1)
 import Elmish.Boot (defaultMain)
+import Elmish.Foreign (Foreign, readForeign)
 import Elmish.HTML as R
+import Foreign.Object (lookup)
 import UI.Util (eventTargetValue, generateDownloadLink)
+import Unsafe.Coerce (unsafeCoerce)
+import Web.Event.Event (preventDefault)
 
 type State
   = { from :: String
@@ -50,7 +54,7 @@ main =
     EditFrom str -> pure $ s { from = str }
     EditTo str -> pure $ s { to = str }
     CalculateSquareNumbers ->
-      case getInputValues s of
+      case getAndValidateInputValues s of
         Just { from, to } -> do
           let
             result = calcNumbers from to
@@ -63,7 +67,10 @@ main =
     R.div { className: "container my-grid" }
       $
         [ R.h1 {} "Square Numbers"
-        , R.form { className: "row gy-3", onSubmit: pure unit } --return false prevents form from submitting, but elmish wants unit. Alternative would be `<form onsubmit="event.preventDefault();">`
+        , R.form
+            { className: "row gy-3"
+            , onKeyPress: handleMaybe dispatch \e -> if eventKey e == Just "Enter" then Just CalculateSquareNumbers else Nothing
+            }
             $
               [ R.div { className: "col-md-2" }
                   $
@@ -82,12 +89,12 @@ main =
                         ]
                     ]
               , R.div { className: "col-md-2" }
-                  $ [ R.button { "type": "submit", className: "btn btn-primary", onClick: dispatch CalculateSquareNumbers, disabled: not isValid } [ R.text "calculate" ] ]
+                  $ [ R.button { type: "button", className: "btn btn-primary", onClick: dispatch CalculateSquareNumbers, disabled: not isValid } [ R.text "calculate" ] ]
               ]
         , R.div { className: "row gy-3" } $ [ displayResult s.result s.csvDownloadLink ]
         ]
     where
-    isValid = isJust $ getInputValues s
+    isValid = isJust $ getAndValidateInputValues s
   toRow :: Array String -> ReactElement
   toRow row =
     R.tr {} $ row <#> (\val -> R.td { className: "text-end" } [ R.text val ])
@@ -103,8 +110,8 @@ main =
       ]
   displayResult _ _ = R.empty
 
-getInputValues :: State -> Maybe { from :: Int, to :: Int }
-getInputValues s = case ([ s.from, s.to ] <#> fromString # catMaybes) of
+getAndValidateInputValues :: State -> Maybe { from :: Int, to :: Int }
+getAndValidateInputValues s = case ([ s.from, s.to ] <#> fromString # catMaybes) of
   [ from, to ] | from <= to -> Just { from, to }
   _ -> Nothing
 
@@ -136,3 +143,9 @@ downloadLink results =
     csv = toCsv results
   in
     generateDownloadLink csv (MediaType "application/csv")
+
+eventKey :: Foreign -> Maybe String
+eventKey =
+  readForeign
+    >=> lookup "key"
+    >=> readForeign
