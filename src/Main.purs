@@ -75,7 +75,7 @@ main =
                     [ R.label { className: "visually-hidden", htmlFor: "from" } $ [ R.text "from" ]
                     , R.div { className: "input-group" }
                         [ R.div { className: "input-group-text" } [ R.text "from" ]
-                        , R.input { id: "from", "type": "text", placeholder: "from", className: "form-control", value: s.from, onChange: handleMaybe dispatch \e -> eventTargetValue e <#> EditFrom }
+                        , R.input { id: "from", "type": "number", placeholder: "from", className: "form-control", value: s.from, onChange: handleMaybe dispatch \e -> eventTargetValue e <#> EditFrom }
                         ]
                     ]
               , R.div { className: "col-md-2" }
@@ -83,7 +83,7 @@ main =
                     [ R.label { className: "visually-hidden", htmlFor: "to" } $ [ R.text "to" ]
                     , R.div { className: "input-group" }
                         [ R.div { className: "input-group-text" } [ R.text "to" ]
-                        , R.input { id: "to", "type": "text", placeholder: "to", className: "form-control", value: s.to, onChange: handleMaybe dispatch \e -> eventTargetValue e <#> EditTo }
+                        , R.input { id: "to", "type": "number", placeholder: "to", className: "form-control", value: s.to, onChange: handleMaybe dispatch \e -> eventTargetValue e <#> EditTo }
                         ]
                     ]
               , R.div { className: "col-md-2" }
